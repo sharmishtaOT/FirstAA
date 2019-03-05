@@ -18,20 +18,29 @@ public class SectionService {
     @Autowired
     TemplateRepository templateRepository;
 
-        @Autowired
-        public SectionRepository sectionRepository;
+    @Autowired
+    public SectionRepository sectionRepository;
 
     private List<SectionEntity> list = new ArrayList<>();
 
 
     public SectionEntity post(SectionEntity sectionEntity, Long templateId){
         Optional<TemplateEntity> templateEntity = templateRepository.findById(templateId);
+//        templateEntity.addSection(sectionEntity);
         return sectionRepository.save(sectionEntity);
     }
 
 
     public List<SectionEntity> getAllSections(){
-//            return list;
             return sectionRepository.findAll();
+    }
+
+    public Optional<SectionEntity> getSectionById(Long templateId, Long sectionId){
+        return sectionRepository.findById(sectionId);
+    }
+
+    public boolean deleteSectionById(Long sectionId){
+        sectionRepository.deleteById(sectionId);
+        return true;
     }
 }

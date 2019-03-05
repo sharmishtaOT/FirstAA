@@ -2,12 +2,12 @@ package org.intern.project.assessment.Service;
 
 import org.intern.project.assessment.QuestionEntity;
 import org.intern.project.assessment.Repository.QuestionRepository;
-import org.intern.project.assessment.SectionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionService {
@@ -20,13 +20,20 @@ public class QuestionService {
 
         public boolean post(QuestionEntity questionEntity){
             questionRepository.save(questionEntity);
-//        list.add(questionEntity);
             return true;
         }
 
-        public List<QuestionEntity> getAllSections(){
-//            return list;
+        public List<QuestionEntity> getAllQuestions(){
             return questionRepository.findAll();
         }
 
+        public Optional<QuestionEntity> getQuestionById(Long sectionId, Long questionId){
+            return questionRepository.findById(questionId);
+        }
+
+        public boolean deleteQuestionById(Long templateId, Long sectionId, Long questionId){
+            questionRepository.deleteById(questionId);
+            return true;
+        }
 }
+
