@@ -34,8 +34,7 @@ public class SectionEntity{ //extends org.springframework.data.jpa.domain.Abstra
 //    private TemplateEntity templateEntity;
 //    @OneToMany(mappedBy = "sectionEntity", targetEntity = QuestionEntity.class, cascade = CascadeType.ALL, orphanRemoval = true)
 
-
-    @Transient
-    private List<QuestionEntity> questionEntities;
+//    @Transient
+//    private List<QuestionEntity> questionEntities;
 
 }

@@ -26,6 +26,8 @@ public interface TemplateSectionRepository extends JpaRepository<TemplateSection
 
 //    List<TemplateSection> findByTemplateIdOrderBySequence(@Param("templateId") BigDecimal templateId);
 
+//    void deleteBySectionId(BigDecimal sectionId);
+
     @Transactional
     @Query(value = "SELECT * FROM template_Section WHERE template_id= :id ",
     nativeQuery = true) // + "ORDER BY ts.sequence")

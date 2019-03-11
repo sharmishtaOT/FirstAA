@@ -34,14 +34,24 @@ public class QuestionController {
 //        return new ResponseEntity(HttpStatus.OK);
 //    }
 
-    @GetMapping(value = "/{templateId}/sections/{sectionId}/questions")
-    public ResponseEntity<QuestionController> getAllQuestions(){
-        return new ResponseEntity(questionService.getAllQuestions(), HttpStatus.OK);
-    }
+//    @GetMapping(value = "/{templateId}/sections/{sectionId}/questions")
+//    public ResponseEntity<QuestionController> getAllQuestions(){
+//        return new ResponseEntity(questionService.getAllQuestions(), HttpStatus.OK);
+//    }
 
     @PostMapping(value = "/{templateId}/sections/{sectionId}/questions")
-    public ResponseEntity<QuestionController> createQuestions(@PathVariable BigDecimal templateId, @PathVariable BigDecimal sectionId){
-        return new ResponseEntity(templateBuilderService.addQuestion(), HttpStatus.OK);
+    public ResponseEntity<QuestionController> createQuestions(@PathVariable BigDecimal templateId, @PathVariable BigDecimal sectionId, @RequestBody QuestionEntity questionEntity){
+        return new ResponseEntity(templateBuilderService.addQuestion(templateId, sectionId, questionEntity), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{templateId}/sections/{sectionId}/questions")
+    public ResponseEntity<QuestionController> getQuestions(@PathVariable BigDecimal templateId, @PathVariable BigDecimal sectionId){
+        return new ResponseEntity(templateBuilderService.getQuestions(sectionId), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{templateId}/sections/{sectionId}/questions/{questionId}")
+    public ResponseEntity<QuestionEntity> getQuestionById(@PathVariable BigDecimal questionId){
+        return new ResponseEntity(questionService.getQuestionById(questionId), HttpStatus.OK);
     }
 
 //    @GetMapping(value = "/{templateId}/sections/{sectionId}/questions/{questionId}")

@@ -39,20 +39,15 @@ public class TemplateController {
     }
 
 
-//    @PostMapping(value = "/{templateId}/sections/{sectionId}/questions")
-//    public ResponseEntity<QuestionController> createQuestions(@PathVariable BigDecimal templateId, @PathVariable BigDecimal sectionId){
-//        return new ResponseEntity(templateService)
-//    }
+    @PutMapping(value = "/{templateId}/welcometext")
+    public ResponseEntity<TemplateController> updateWelcomeText(@RequestBody WelcomeTextUpdateRequest welcomeUpdateRequest, @PathVariable BigDecimal templateId){
+        templateService.updateTemplateWelcomeText(templateId, welcomeUpdateRequest);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 
-//    @PutMapping(value = "/{templateId}/welcometext")
-//    public ResponseEntity<TemplateController> updateWelcomeText(@RequestBody WelcomeTextUpdateRequest welcomeUpdateRequest, @PathVariable BigDecimal templateId){
-//        templateService.updateTemplateWelcomeText(templateId, welcomeUpdateRequest);
-//        return new ResponseEntity(HttpStatus.NO_CONTENT);
-//    }
-
-//    @DeleteMapping(value = "/{id}")
-//    public ResponseEntity<TemplateController> deleteTemplateById(@PathVariable BigDecimal id){
-//        templateService.deleteTemplateById(id);
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<TemplateController> deleteTemplateById(@PathVariable BigDecimal id){
+        templateService.deleteTemplateById(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

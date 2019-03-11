@@ -9,7 +9,6 @@ import org.intern.project.assessment.TemplateEntity;
 import org.intern.project.assessment.SectionEntity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "template_section")
