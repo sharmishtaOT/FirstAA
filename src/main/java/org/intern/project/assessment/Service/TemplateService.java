@@ -1,21 +1,30 @@
 package org.intern.project.assessment.Service;
 
 import org.intern.project.assessment.Repository.TemplateRepository;
+import org.intern.project.assessment.Repository.TemplateSectionRepository;
+import org.intern.project.assessment.SectionEntity;
 import org.intern.project.assessment.TemplateEntity;
-//import org.intern.project.assessment.TemplateNotFoundException.TemplateNotFoundException;
+import org.intern.project.assessment.domain.TemplateSection;
+import org.intern.project.assessment.domain.TemplateSectionPK;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.intern.project.assessment.dto.WelcomeUpdateRequest;
+import org.intern.project.assessment.dto.Request.WelcomeTextUpdateRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-@org.springframework.stereotype.Service
+@EnableTransactionManagement
+
+@Service
 public class TemplateService {
 
     @Autowired
-    public TemplateRepository templateRepository;
+    private TemplateRepository templateRepository;
 
+    @Autowired
+    private TemplateSectionRepository templateSectionRepository;
 
     public boolean post(TemplateEntity templateEntity){
         templateRepository.save(templateEntity);
@@ -26,21 +35,40 @@ public class TemplateService {
         return templateRepository.findAll();
     }
 
-    public Optional<TemplateEntity> getTemplateById(Long id){
+    public Optional<TemplateEntity> getTemplateById(BigDecimal id){
         return templateRepository.findById(id);
     }
 
-    public boolean deleteTemplateById(Long templateId){
-        templateRepository.deleteById(templateId);
-        return true;
+//    public boolean deleteTemplateById(BigDecimal templateId){
+//        templateRepository.deleteById(templateId);
+//        return true;
+//    }
+
+//    public void updateTemplateWelcomeText(BigDecimal templateId, WelcomeTextUpdateRequest welcomeUpdateRequest){
+//        Optional<TemplateEntity> templateEntityRepo = templateRepository.findById(templateId);
+//        TemplateEntity templateEntity = templateEntityRepo.get();
+//        templateEntity.setWelcomeText(welcomeUpdateRequest.getWelcomeText());
+//        templateRepository.save(templateEntity);
+//    }
+
+
+    public SectionEntity addSectionToTemplateId(TemplateEntity templateEntity, SectionEntity sectionEntity, BigDecimal templateId){
+        TemplateSection templateSection;
+        List<TemplateSection> templateSections = templateSectionRepository.findAllByTemplateId(templateEntity.getId());
+
+        //        Integer sequence = (Integer) templateSections.size();
+
+        templateSection = new TemplateSection(templateEntity, sectionEntity, 1);
+//        templateSections.add(templateSection);
+//        templateSectionRepository.saveAll(templateSections);
+
+        templateSectionRepository.save(templateSection);
+        return sectionEntity;
     }
 
-    public void updateTemplateWelcomeText(Long templateId, WelcomeUpdateRequest welcomeUpdateRequest){
-        Optional<TemplateEntity> templateEntityRepo = templateRepository.findById(templateId);
-        TemplateEntity templateEntity = templateEntityRepo.get();
-        templateEntity.setWelcomeText(welcomeUpdateRequest.getWelcomeText());
-        templateRepository.save(templateEntity);
-    }
+//
+//    public List<BigDecimal> getSectionIdsByTemplateIds(BigDecimal templateId){
+//         return templateSectionRepository.findSectionIdsByTemplateIds(templateId);
+//    }
 
 }
-

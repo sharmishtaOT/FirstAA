@@ -2,42 +2,58 @@ package org.intern.project.assessment.Controller;
 
 import org.intern.project.assessment.SectionEntity;
 import org.intern.project.assessment.Service.SectionService;
-import org.intern.project.assessment.TemplateEntity;
+import org.intern.project.assessment.Service.TemplateBuilderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/templates")
 
 public class SectionController {
 
     @Autowired
-    public SectionService sectionService;
-//    public SectionService sectionService = new SectionService();
+    private SectionService sectionService;
 
+    @Autowired
+    private TemplateBuilderService templateBuilderService;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/template/{templateId}/section")
-    public SectionEntity postSection(@PathVariable("templateId") Long templateId,
-                               @RequestBody SectionEntity sectionEntity){
-        return sectionService.post(sectionEntity, templateId);
+    @PostMapping(value = "/{templateId}/sections")
+    public ResponseEntity<SectionController> postSection(@PathVariable BigDecimal templateId,
+                                                         @RequestBody SectionEntity sectionEntity){
+        templateBuilderService.addSection( templateId, sectionEntity);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/template/section")
-    public List<SectionEntity> getAllSections(){
-        return sectionService.getAllSections();
+
+
+    @GetMapping(value = "/{templateId}/sections")
+    public ResponseEntity<SectionController> getSectionsByTemplateId(@PathVariable BigDecimal templateId){
+        List<SectionEntity> sectionEntities = templateBuilderService.getSections(templateId);
+
+        return new ResponseEntity(sectionEntities, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/template/{templateId}/section/{sectionId}")
-    public Optional<SectionEntity> getSectionById(@PathVariable Long templateId, @PathVariable Long sectionId){
-        return sectionService.getSectionById(templateId, sectionId);
+
+
+//    @GetMapping(value = "/{templateId}/sections")
+//    public ResponseEntity<SectionController> getAllSections(){
+//        return new ResponseEntity(sectionService.getAllSections(), HttpStatus.OK);
+//    }
+
+    @GetMapping(value = "/{templateId}/sections/{sectionId}")
+    public ResponseEntity<SectionController> getSectionById(@PathVariable BigDecimal templateId, @PathVariable BigDecimal sectionId){
+        return new ResponseEntity(sectionService.getSectionById(templateId, sectionId), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/template/{templateId}/section/{sectionId}/delete")
-    public boolean deleteSectionById(@PathVariable Long sectionId){
-        return sectionService.deleteSectionById(sectionId);
-    }
+//    @DeleteMapping(value = "/{templateId}/sections/{sectionId}")
+//    public ResponseEntity<SectionController> deleteSectionById(@PathVariable BigDecimal sectionId){
+//        sectionService.deleteSectionById(sectionId);
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 
 }

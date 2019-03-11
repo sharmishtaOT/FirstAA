@@ -1,49 +1,41 @@
 package org.intern.project.assessment;
 
-import org.intern.project.assessment.Repository.SectionRepository;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "SectionEntity")
-public class SectionEntity {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class SectionEntity{ //extends org.springframework.data.jpa.domain.AbstractPersistable<BigDecimal>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long sectionId;
+    private BigDecimal id;
 
     @Column(name = "sectionName")
-    String sectionName;
+    private String sectionName;
 
-    public TemplateEntity getTemplateEntity() {
-        return templateEntity;
-    }
 
-    public void setTemplateEntity(TemplateEntity templateEntity) {
-        this.templateEntity = templateEntity;
-    }
+//    private TemplateEntity getTemplateEntity() {
+//        return templateEntity;
+//    }
+//    @ManyToOne(targetEntity = TemplateEntity.class, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "templateId")
+//    private TemplateEntity templateEntity;
+//    @OneToMany(mappedBy = "sectionEntity", targetEntity = QuestionEntity.class, cascade = CascadeType.ALL, orphanRemoval = true)
 
-    @ManyToOne(targetEntity = TemplateEntity.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "templateId")
-    public TemplateEntity templateEntity;
 
-    @OneToMany(mappedBy = "sectionEntity", targetEntity = QuestionEntity.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<QuestionEntity> questionEntities;
+    @Transient
+    private List<QuestionEntity> questionEntities;
 
-    public Long getSectionId() {
-        return sectionId;
-    }
-
-    public void setSectionId(Long sectionId) {
-        this.sectionId = sectionId;
-    }
-
-        public String getSectionName() {
-        return sectionName;
-    }
-
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName;
-    }
 }

@@ -1,69 +1,46 @@
 package org.intern.project.assessment;
 
-import org.intern.project.assessment.Repository.TemplateRepository;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
+import org.intern.project.assessment.EntityEnums.TemplateState;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "TemplateEntity")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TemplateEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long templateId;
+    @GeneratedValue
+    private BigDecimal id;
 
-    @Column(name = "TemplateName")
-    String templateName;
-
-    @Column(name = "State")
-    String state;
+    @Column(name = "TemplateName", unique = true)
+    private String templateName;
 
     @Column(name = "templateDescription")
-    String templateDescription;
+    private String templateDescription;
 
-    public List<SectionEntity> getSectionEntityList() {
-        return sectionEntityList;
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "templateState")
+    private TemplateState templateState = TemplateState.DRAFT;
 
-    public void setSectionEntityList(List<SectionEntity> sectionEntityList) {
-        this.sectionEntityList = sectionEntityList;
-    }
+    @Column(name = "active")
+    private boolean active = true;
 
-    @OneToMany(mappedBy = "templateEntity", targetEntity = SectionEntity.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<SectionEntity> sectionEntityList = new ArrayList<>();
+    @Column(name = "welcomeText")
+    private String welcomeText="Welcome to the template default welcome message";
 
 
-    public Long getTemplateId() {
-        return templateId;
-    }
 
-    public void setTemplateId(Long templateId) {
-        this.templateId = templateId;
-    }
+//    @OneToMany(mappedBy = "templateEntity", targetEntity = SectionEntity.class, cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<SectionEntity> sectionEntityList = new ArrayList<>();
 
-    public String getTemplateName() {
-        return templateName;
-    }
-
-    public void setTemplateName(String templateName) {
-        this.templateName = templateName;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getTemplateDescription() {
-        return templateDescription;
-    }
-
-    public void setTemplateDescription(String templateDescription) {
-        this.templateDescription = templateDescription;
-    }
 }
