@@ -17,7 +17,7 @@ public class QuestionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigDecimal questionId;
+    private BigDecimal id;
 
     @Column
     private String type;
@@ -25,12 +25,12 @@ public class QuestionEntity {
     @Column
     private String questionDescription;
 
-    private SectionEntity getSectionEntity() {
-        return sectionEntity;
-    }
+//    private SectionEntity getSectionEntity() {
+//        return sectionEntity;
+//    }
 
-    @ManyToOne(targetEntity = SectionEntity.class, fetch = FetchType.LAZY)
-    @JoinColumn(name="sectionId")
-    private SectionEntity sectionEntity;
+    //    @ManyToOne(targetEntity = SectionEntity.class, fetch = FetchType.LAZY)
+    //    @JoinColumn(name="sectionId")
+    //    private SectionEntity sectionEntity;
 
 }

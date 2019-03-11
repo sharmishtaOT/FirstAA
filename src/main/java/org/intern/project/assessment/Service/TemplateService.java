@@ -1,9 +1,12 @@
 package org.intern.project.assessment.Service;
 
+import org.intern.project.assessment.QuestionEntity;
+import org.intern.project.assessment.Repository.SectionQuestionRepository;
 import org.intern.project.assessment.Repository.TemplateRepository;
 import org.intern.project.assessment.Repository.TemplateSectionRepository;
 import org.intern.project.assessment.SectionEntity;
 import org.intern.project.assessment.TemplateEntity;
+import org.intern.project.assessment.domain.SectionQuestion;
 import org.intern.project.assessment.domain.TemplateSection;
 import org.intern.project.assessment.domain.TemplateSectionPK;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,11 @@ public class TemplateService {
     @Autowired
     private TemplateSectionRepository templateSectionRepository;
 
+    @Autowired
+    private SectionService sectionService;
+    @Autowired
+    private SectionQuestionRepository sectionQuestionRepository;
+
     public boolean post(TemplateEntity templateEntity){
         templateRepository.save(templateEntity);
         return true;
@@ -39,22 +47,31 @@ public class TemplateService {
         return templateRepository.findById(id);
     }
 
-//    public boolean deleteTemplateById(BigDecimal templateId){
-//        templateRepository.deleteById(templateId);
-//        return true;
-//    }
+    public void deleteTemplateById(BigDecimal templateId){
+        List<BigDecimal> sectionIds = templateSectionRepository.findSectionIdsByTemplateIds(templateId);
 
-//    public void updateTemplateWelcomeText(BigDecimal templateId, WelcomeTextUpdateRequest welcomeUpdateRequest){
-//        Optional<TemplateEntity> templateEntityRepo = templateRepository.findById(templateId);
-//        TemplateEntity templateEntity = templateEntityRepo.get();
-//        templateEntity.setWelcomeText(welcomeUpdateRequest.getWelcomeText());
-//        templateRepository.save(templateEntity);
-//    }
+
+        for (BigDecimal sectionId : sectionIds)
+            templateSectionRepository.deleteById(new TemplateSectionPK(templateId, sectionId));
+
+        for (BigDecimal sectionId : sectionIds)
+            sectionService.deleteSectionById(sectionId);
+
+        templateRepository.deleteById(templateId);
+        return;
+    }
+
+    public void updateTemplateWelcomeText(BigDecimal templateId, WelcomeTextUpdateRequest welcomeUpdateRequest){
+        Optional<TemplateEntity> templateEntityRepo = templateRepository.findById(templateId);
+        TemplateEntity templateEntity = templateEntityRepo.get();
+        templateEntity.setWelcomeText(welcomeUpdateRequest.getWelcomeText());
+        templateRepository.save(templateEntity);
+    }
 
 
     public SectionEntity addSectionToTemplateId(TemplateEntity templateEntity, SectionEntity sectionEntity, BigDecimal templateId){
         TemplateSection templateSection;
-        List<TemplateSection> templateSections = templateSectionRepository.findAllByTemplateId(templateEntity.getId());
+        List<TemplateSection> templateSections = templateSectionRepository.findAllByTemplateId(templateId);
 
         //        Integer sequence = (Integer) templateSections.size();
 
@@ -65,6 +82,21 @@ public class TemplateService {
         templateSectionRepository.save(templateSection);
         return sectionEntity;
     }
+
+
+    public QuestionEntity addQuestionToSectionId(SectionEntity sectionEntity, QuestionEntity questionEntity, BigDecimal sectionId){
+
+        SectionQuestion sectionQuestion;
+
+        List<SectionQuestion> sectionQuestions = sectionQuestionRepository.findAllBySectionId(sectionId);
+
+        sectionQuestion = new SectionQuestion(sectionEntity, questionEntity, 1);
+
+        sectionQuestionRepository.save(sectionQuestion);
+
+        return questionEntity;
+    }
+
 
 //
 //    public List<BigDecimal> getSectionIdsByTemplateIds(BigDecimal templateId){

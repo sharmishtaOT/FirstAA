@@ -5,6 +5,7 @@ import org.intern.project.assessment.Repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,16 +24,27 @@ public class QuestionService {
             return true;
         }
 
+
+    public QuestionEntity addQuestion(QuestionEntity questionEntity){
+
+            questionRepository.save(questionEntity);
+        return questionEntity;
+    }
+
         public List<QuestionEntity> getAllQuestions(){
             return questionRepository.findAll();
         }
+
+    public QuestionEntity getQuestionById(BigDecimal questionId){
+            return questionRepository.findById(questionId).get();
+    }
 //
 //        public Optional<QuestionEntity> getQuestionById(BigDecimal sectionId, BigDecimal questionId){
 //            return questionRepository.findById(questionId);
 //        }
 //
-//        public boolean deleteQuestionById(BigDecimal templateId, BigDecimal sectionId, BigDecimal questionId){
-//            questionRepository.deleteById(questionId);
-//            return true;
-//        }
+        public void deleteById(BigDecimal questionId){
+            questionRepository.deleteById(questionId);
+            return;
+        }
 }

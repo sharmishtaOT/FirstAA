@@ -1,9 +1,12 @@
 package org.intern.project.assessment.Service;
 
+import org.intern.project.assessment.Repository.SectionQuestionRepository;
 import org.intern.project.assessment.Repository.SectionRepository;
 import org.intern.project.assessment.Repository.TemplateRepository;
 import org.intern.project.assessment.SectionEntity;
 import org.intern.project.assessment.TemplateEntity;
+import org.intern.project.assessment.Service.QuestionService;
+import org.intern.project.assessment.domain.SectionQuestionPK;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +20,16 @@ import java.util.Optional;
 public class SectionService {
 
     @Autowired
-    TemplateRepository templateRepository;
+    private TemplateRepository templateRepository;
 
     @Autowired
-    public SectionRepository sectionRepository;
+    private SectionRepository sectionRepository;
+
+    @Autowired
+    private SectionQuestionRepository sectionQuestionRepository;
+
+    @Autowired
+    private QuestionService questionService;
 
     private List<SectionEntity> list = new ArrayList<>();
 
@@ -47,10 +56,20 @@ public class SectionService {
     }
 
 
-//    public boolean deleteSectionById(BigDecimal sectionId){
-//        sectionRepository.deleteById(sectionId);
-//        return true;
-//    }
+    public void deleteSectionById(BigDecimal sectionId){
+
+        List<BigDecimal> questionIds = sectionQuestionRepository.findQuestionIdsBySectionId(sectionId);
+
+        for (BigDecimal questionId : questionIds)
+            sectionQuestionRepository.deleteById(new SectionQuestionPK(sectionId, questionId));
+
+
+        for (BigDecimal questionId : questionIds)
+            questionService.deleteById(questionId);
+
+        sectionRepository.deleteById(sectionId);
+        return;
+    }
 
     public SectionEntity getAllSectionsById(BigDecimal sectionEntityId){
         return sectionRepository.findById(sectionEntityId).get();
