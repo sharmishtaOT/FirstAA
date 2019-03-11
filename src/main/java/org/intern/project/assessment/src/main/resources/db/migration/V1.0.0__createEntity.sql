@@ -1,0 +1,18 @@
+--package db.migration
+--
+--IF  schema_id(Assessment) IS NULL
+--EXECUTE('CREATE SCHEMA [Assessment]');
+--
+--
+--IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'Assessment' AND TABLE_NAME = 'Template')
+--BEGIN
+--CREATE TABLE [Assessment].[Template](
+--[Id] [int] IDENTITY,
+--CONSTRAINT [PK_Assessment.Template]
+--PRIMARY KEY,
+--[TemplateName] NVARCHAR(100) NOT NULL,
+--[TemplateDescription] NVARCHAR(1000) NOT NULL,
+--[State] NVARCHAR(15) NOT NULL,
+--[WelcomeText] NVARCHAR(1000)
+--)
+--END
