@@ -26,14 +26,13 @@ public class QuestionService {
         public List<QuestionEntity> getAllQuestions(){
             return questionRepository.findAll();
         }
-
-        public Optional<QuestionEntity> getQuestionById(Long sectionId, Long questionId){
-            return questionRepository.findById(questionId);
-        }
-
-        public boolean deleteQuestionById(Long templateId, Long sectionId, Long questionId){
-            questionRepository.deleteById(questionId);
-            return true;
-        }
+//
+//        public Optional<QuestionEntity> getQuestionById(BigDecimal sectionId, BigDecimal questionId){
+//            return questionRepository.findById(questionId);
+//        }
+//
+//        public boolean deleteQuestionById(BigDecimal templateId, BigDecimal sectionId, BigDecimal questionId){
+//            questionRepository.deleteById(questionId);
+//            return true;
+//        }
 }
-

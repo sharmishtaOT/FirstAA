@@ -1,46 +1,36 @@
 package org.intern.project.assessment;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import java.math.BigDecimal;
 import javax.persistence.*;
-
+import java.math.BigDecimal;
 @Entity
 @Table
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class QuestionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long questionId;
+    private BigDecimal questionId;
 
     @Column
-    String type;
+    private String type;
 
     @Column
-    String questionDescription;
+    private String questionDescription;
 
+    private SectionEntity getSectionEntity() {
+        return sectionEntity;
+    }
 
     @ManyToOne(targetEntity = SectionEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name="sectionId")
-    public SectionEntity sectionEntity;
+    private SectionEntity sectionEntity;
 
-
-    public Long getQuestionId() { return questionId; }
-
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getQuestionDescription() {
-        return questionDescription;
-    }
-
-    public void setQuestionDescription(String questionDescription) {
-        this.questionDescription = questionDescription;
-    }
 }

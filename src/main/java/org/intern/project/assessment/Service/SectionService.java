@@ -7,6 +7,7 @@ import org.intern.project.assessment.TemplateEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class SectionService {
     private List<SectionEntity> list = new ArrayList<>();
 
 
-    public SectionEntity post(SectionEntity sectionEntity, Long templateId){
+    public SectionEntity post(SectionEntity sectionEntity, BigDecimal templateId){
         Optional<TemplateEntity> templateEntity = templateRepository.findById(templateId);
 //        templateEntity.addSection(sectionEntity);
         return sectionRepository.save(sectionEntity);
@@ -35,12 +36,23 @@ public class SectionService {
             return sectionRepository.findAll();
     }
 
-    public Optional<SectionEntity> getSectionById(Long templateId, Long sectionId){
+    public Optional<SectionEntity> getSectionById(BigDecimal templateId, BigDecimal sectionId){
         return sectionRepository.findById(sectionId);
     }
 
-    public boolean deleteSectionById(Long sectionId){
-        sectionRepository.deleteById(sectionId);
-        return true;
+
+    public SectionEntity addSection(SectionEntity sectionEntity){
+        sectionRepository.save(sectionEntity);
+        return sectionEntity;
+    }
+
+
+//    public boolean deleteSectionById(BigDecimal sectionId){
+//        sectionRepository.deleteById(sectionId);
+//        return true;
+//    }
+
+    public SectionEntity getAllSectionsById(BigDecimal sectionEntityId){
+        return sectionRepository.findById(sectionEntityId).get();
     }
 }
