@@ -48,6 +48,7 @@ public class TemplateService {
     }
 
     public void deleteTemplateById(BigDecimal templateId){
+
         List<BigDecimal> sectionIds = templateSectionRepository.findSectionIdsByTemplateIds(templateId);
 
 
@@ -55,7 +56,7 @@ public class TemplateService {
             templateSectionRepository.deleteById(new TemplateSectionPK(templateId, sectionId));
 
         for (BigDecimal sectionId : sectionIds)
-            sectionService.deleteSectionById(sectionId);
+            sectionService.deleteSectionsByTemplateId(sectionId);
 
         templateRepository.deleteById(templateId);
         return;
@@ -96,7 +97,6 @@ public class TemplateService {
 
         return questionEntity;
     }
-
 
 //
 //    public List<BigDecimal> getSectionIdsByTemplateIds(BigDecimal templateId){
