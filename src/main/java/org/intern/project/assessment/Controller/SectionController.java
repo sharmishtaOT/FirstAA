@@ -29,8 +29,6 @@ public class SectionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-
     @GetMapping(value = "/{templateId}/sections")
     public ResponseEntity<SectionController> getSectionsByTemplateId(@PathVariable BigDecimal templateId){
         List<SectionEntity> sectionEntities = templateBuilderService.getSections(templateId);
@@ -38,22 +36,15 @@ public class SectionController {
         return new ResponseEntity(sectionEntities, HttpStatus.OK);
     }
 
-
-
-//    @GetMapping(value = "/{templateId}/sections")
-//    public ResponseEntity<SectionController> getAllSections(){
-//        return new ResponseEntity(sectionService.getAllSections(), HttpStatus.OK);
-//    }
-
     @GetMapping(value = "/{templateId}/sections/{sectionId}")
     public ResponseEntity<SectionController> getSectionById(@PathVariable BigDecimal templateId, @PathVariable BigDecimal sectionId){
         return new ResponseEntity(sectionService.getSectionById(templateId, sectionId), HttpStatus.OK);
     }
 
-//    @DeleteMapping(value = "/{templateId}/sections/{sectionId}")
-//    public ResponseEntity<SectionController> deleteSectionById(@PathVariable BigDecimal sectionId){
-//        sectionService.deleteSectionById(sectionId);
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
+    @DeleteMapping(value = "/{templateId}/sections/{sectionId}")
+    public ResponseEntity<SectionController> deleteSectionById(@PathVariable BigDecimal templateId, @PathVariable BigDecimal sectionId){
+        sectionService.deleteSectionById(templateId, sectionId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 }
